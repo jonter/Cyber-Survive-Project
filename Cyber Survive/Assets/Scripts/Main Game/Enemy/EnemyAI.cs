@@ -13,14 +13,18 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] float attackDistance = 1.5f;
 
     bool isAction = false;
+    Animator anim;
+    float rotationSpeed = 10;
     // Start is called before the first frame update
     void Start()
     {
+        anim = GetComponentInChildren<Animator>();
         agent = GetComponent<NavMeshAgent>();
         agent.stoppingDistance = attackDistance;
         if (PhotonNetwork.IsMasterClient == false) return;
         StartCoroutine(ChoosePlayerToChase());
     }
+
 
     IEnumerator ChoosePlayerToChase()
     {
@@ -68,23 +72,58 @@ public class EnemyAI : MonoBehaviour
         {
             StartCoroutine(MakeHit());
         }
+        AnimHandle();
+    }
 
+    private void OnDisable()
+    {
+        agent.SetDestination(transform.position);
+    }
+
+    void AnimHandle()
+    {
+        if(agent.desiredVelocity.magnitude < 0.1f)
+        {
+            anim.SetBool("walk", false);
+        }
+        else
+        {
+            anim.SetBool("walk", true);
+        }
     }
 
     IEnumerator MakeHit()
     {
+        StartCoroutine(RotateToPlayer());
         isAction = true;
-        // ¬ключаем анимацию
-        yield return new WaitForSeconds(0.5f);
+        anim.SetTrigger("attack");
+        yield return new WaitForSeconds(13f/30f);
         float distance = Vector3.Distance(transform.position, target.position);
         if (distance <= attackDistance)
         {
             PhotonView playerView = target.GetComponent<PhotonView>();
             playerView.RPC("GetDamage", playerView.Owner, 20f);
-
         }
+        yield return new WaitForSeconds(19f/ 30f);
 
         isAction = false;
+    }
+
+    IEnumerator RotateToPlayer()
+    {
+        float timer = 0;
+        while(timer <= 1)
+        {
+            timer += Time.deltaTime;
+            Vector3 dir = target.position - transform.position;
+            Quaternion lookRotation = Quaternion.LookRotation(dir);
+            lookRotation = Quaternion.Euler(0, lookRotation.eulerAngles.y ,0);
+            transform.rotation = Quaternion.Slerp(transform.rotation,
+                lookRotation, rotationSpeed * Time.deltaTime);
+
+            yield return null;
+        }
+
     }
 
 }
