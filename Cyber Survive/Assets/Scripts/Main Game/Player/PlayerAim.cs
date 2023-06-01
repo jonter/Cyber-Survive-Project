@@ -13,9 +13,9 @@ public class PlayerAim : MonoBehaviour, IPunObservable
     float rotateSpeed = 10;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        cam = Camera.main;
+        cam = GetComponentInChildren<Camera>();
         view = GetComponent<PhotonView>();
     }
 
