@@ -9,6 +9,8 @@ public class CharacterMovement : MonoBehaviour
     Rigidbody rb;
     PhotonView view;
 
+    [SerializeField] Animator anim;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,10 +23,14 @@ public class CharacterMovement : MonoBehaviour
     {
         if (view.IsMine == false) return;
 
-        float inputX = Input.GetAxis("Horizontal") * maxSpeed;
-        float inputZ = Input.GetAxis("Vertical") * maxSpeed;
+        float inputX = Input.GetAxis("Horizontal");
+        float inputZ = Input.GetAxis("Vertical");
 
-        rb.velocity = new Vector3(inputX, 0, inputZ);
+        Vector3 dir = new Vector3(inputX, 0, inputZ);
+        if (dir.magnitude > 1) dir = dir.normalized;
+
+        rb.velocity = dir * maxSpeed;
+        anim.SetFloat("speed", dir.magnitude);
         
     }
 

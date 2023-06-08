@@ -11,10 +11,13 @@ public class PlayerAim : MonoBehaviour, IPunObservable
     Vector3 aimPoint;
 
     float rotateSpeed = 10;
+    Rigidbody rb;
+    [SerializeField] Animator anim;
 
     // Start is called before the first frame update
     void Awake()
     {
+        rb = GetComponent<Rigidbody>();
         cam = GetComponentInChildren<Camera>();
         view = GetComponent<PhotonView>();
     }
@@ -31,7 +34,15 @@ public class PlayerAim : MonoBehaviour, IPunObservable
 
         }
         RotateToAim();
+        HandleAnimation();
+    }
 
+    void HandleAnimation()
+    {
+        float angle = Vector3.Angle(transform.forward, rb.velocity);
+        float dot = Vector3.Dot(transform.right, rb.velocity);
+        if (dot < 0) angle = -angle;
+        anim.SetFloat("angle", angle);
     }
 
     void Aim()
