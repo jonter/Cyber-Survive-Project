@@ -41,13 +41,14 @@ public class EnemyAI : MonoBehaviour
     Transform SelectClosePlayer()
     {
         Transform closePlayer = characters[0].transform;
-        float minDistance = Vector3.Distance(transform.position, closePlayer.position);
+        float minDistance = 10000;
 
-        for (int i = 1; i < characters.Length; i++)
+        for (int i = 0; i < characters.Length; i++)
         {
             float distance = Vector3.Distance(transform.position,
                 characters[i].transform.position);
-            if(distance < minDistance)
+            PlayerHealth pHealth = characters[i].GetComponent<PlayerHealth>();
+            if(distance < minDistance && pHealth.isAlive == true)
             {
                 minDistance = distance;
                 closePlayer = characters[i].transform;

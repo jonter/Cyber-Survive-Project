@@ -18,6 +18,11 @@ public class CharacterMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    private void OnDisable()
+    {
+        rb.velocity = new Vector3();
+    }
+
     // Update is called once per frame
     void Update()
     {
