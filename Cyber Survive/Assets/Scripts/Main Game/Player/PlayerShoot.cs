@@ -10,6 +10,20 @@ public class PlayerShoot : MonoBehaviour
     PhotonView view;
     [SerializeField] ParticleSystem fireVFX;
 
+    float bulletSpeed = 15;
+
+    float fireRate = 3;
+    bool isAction = false;
+
+    float damage = 10;
+
+    IEnumerator BusyWeapon()
+    {
+        isAction = true;
+        yield return new WaitForSeconds(1/fireRate);
+        isAction = false;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,13 +34,16 @@ public class PlayerShoot : MonoBehaviour
     void Update()
     {
         if (view.IsMine == false) return;
+        if (isAction == true) return;
 
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKey(KeyCode.Mouse0))
         {
+            StartCoroutine(BusyWeapon());
             Vector3 spawnPos = shootPoint.position;
             GameObject newBullet = PhotonNetwork.Instantiate(bulletPrefab.name,
                 spawnPos, transform.rotation);
-            newBullet.GetComponent<Rigidbody>().velocity = transform.forward * 10;
+            newBullet.GetComponent<Bullet>().Launch(damage, transform.forward * bulletSpeed);
+            
             view.RPC("PlayFireEffect", RpcTarget.All);
         }
         

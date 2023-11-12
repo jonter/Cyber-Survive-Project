@@ -13,6 +13,20 @@ public class Bullet : MonoBehaviour
         view = GetComponent<PhotonView>();
     }
 
+    public void Launch(float d, Vector3 velocity)
+    {
+        damage = d;
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.velocity = velocity;
+        StartCoroutine(DeleteBulletInTime());
+    }
+
+    IEnumerator DeleteBulletInTime()
+    {
+        yield return new WaitForSeconds(10);
+        PhotonNetwork.Destroy(gameObject);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (view.IsMine == false) return;

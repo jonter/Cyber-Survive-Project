@@ -23,6 +23,12 @@ public class EnemyHealth : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
     }
 
+    public void IncreaseHP(float hpMult)
+    {
+        hp *= hpMult;
+        maxHP = hp;
+    }
+
     [PunRPC]
     void GetDamage(float damage)
     {

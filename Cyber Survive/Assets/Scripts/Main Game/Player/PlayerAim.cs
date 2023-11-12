@@ -6,7 +6,7 @@ using Photon.Pun;
 public class PlayerAim : MonoBehaviour, IPunObservable
 {
     PhotonView view;
-    Camera cam;
+    [SerializeField] Camera cam;
 
     Vector3 aimPoint;
 
@@ -18,7 +18,7 @@ public class PlayerAim : MonoBehaviour, IPunObservable
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        cam = GetComponentInChildren<Camera>();
+        
         view = GetComponent<PhotonView>();
     }
 

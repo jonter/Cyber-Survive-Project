@@ -62,7 +62,7 @@ BlendTree:
   m_Name: run from rotation
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: e0e2fc15c35419b4f8320bba92934417, type: 2}
+    m_Motion: {fileID: 7400000, guid: 1f3ba5ffe4f0be64e8b08ee7038c605b, type: 2}
     m_Threshold: -180
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1.4
@@ -94,7 +94,7 @@ BlendTree:
     m_DirectBlendParameter: speed
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: e0e2fc15c35419b4f8320bba92934417, type: 2}
+    m_Motion: {fileID: 7400000, guid: 1f3ba5ffe4f0be64e8b08ee7038c605b, type: 2}
     m_Threshold: 180
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1.4
@@ -148,13 +148,13 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: angle
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
