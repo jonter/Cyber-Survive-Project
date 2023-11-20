@@ -9804,7 +9804,7 @@ GameObject:
   - component: {fileID: 553756445}
   - component: {fileID: 553756444}
   m_Layer: 0
-  m_Name: Player Init
+  m_Name: Client Init
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9822,7 +9822,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b821d46cbd5a6c14db64860bf7a9334c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterPrefab: {fileID: 7286516970568245334, guid: cb859e422be44d640905dce75fccb9fd, type: 3}
+  ghostPrefab: {fileID: 3555454186002809850, guid: 523e177e09e641c4dabb828d0342b02c, type: 3}
 --- !u!4 &553756445
 Transform:
   m_ObjectHideFlags: 0

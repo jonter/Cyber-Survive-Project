@@ -15,6 +15,12 @@ public class EnemySpawner : MonoBehaviour
     {
         if (PhotonNetwork.IsMasterClient == false) return;
         spawnPoints = FindObjectsOfType<EnemySpawnPoint>();
+        
+    }
+
+    public void StartSpawning()
+    {
+        if (wave > 0) return;
         StartCoroutine(SpawnWave());
     }
 
