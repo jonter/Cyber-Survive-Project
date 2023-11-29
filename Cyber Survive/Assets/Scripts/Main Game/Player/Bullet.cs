@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
     PhotonView view;
     float damage = 10;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         view = GetComponent<PhotonView>();
     }
@@ -29,12 +29,13 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (view == null) return;
         if (view.IsMine == false) return;
 
         if (other.GetComponent<EnemyHealth>())
         {
             PhotonView enemyView = other.GetComponent<PhotonView>();
-            enemyView.RPC("GetDamage", RpcTarget.MasterClient, damage);
+            enemyView.RPC("GetDamage", RpcTarget.MasterClient, damage, view.Owner.NickName);
         }
 
         PhotonNetwork.Destroy(view);

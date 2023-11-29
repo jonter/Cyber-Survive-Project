@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class EnemyHealth : MonoBehaviour
 {
     [SerializeField] float hp = 20;
+    [SerializeField] int score = 10;
     float maxHP;
     PhotonView view;
 
@@ -30,7 +31,7 @@ public class EnemyHealth : MonoBehaviour
     }
 
     [PunRPC]
-    void GetDamage(float damage)
+    void GetDamage(float damage, string nick)
     {
         if (isAlive == false) return;
         hp -= damage;
@@ -38,7 +39,7 @@ public class EnemyHealth : MonoBehaviour
 
         if(hp <= 0.0001f)
         {
-            StartCoroutine(DeathCoroutine());
+            StartCoroutine(DeathCoroutine(nick));
         }
     }
 
@@ -50,13 +51,14 @@ public class EnemyHealth : MonoBehaviour
             Destroy(healthBar.gameObject);
     }
 
-    IEnumerator DeathCoroutine()
+    IEnumerator DeathCoroutine(string nick)
     {
         isAlive = false;
         int rand = Random.Range(0, 2);
         if (rand == 0) anim.SetTrigger("death1");
         else anim.SetTrigger("death2");
         GetComponent<EnemyAI>().enabled = false;
+        GameManager.master.AddScore(nick, score);
         view.RPC("DisableColliders", RpcTarget.All);
         yield return new WaitForSeconds(10);
         PhotonNetwork.Destroy(gameObject);

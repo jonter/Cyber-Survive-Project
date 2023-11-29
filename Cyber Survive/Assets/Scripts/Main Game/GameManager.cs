@@ -9,12 +9,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject canvas;
     [SerializeField] GameObject waitPanel;
     [SerializeField] GameObject playerPrefab;
+    [SerializeField] ScoreTab scoreTab;
+    [SerializeField] WaveTab waveTab;
 
-    public PhotonView view;
+    [HideInInspector] public PhotonView view;
+    [HideInInspector] public PlayerHealth charater;
+    [HideInInspector] public int scores = 0;
 
     GameManager[] clients;
 
     bool isGameOn = false;
+
+    public static GameManager master;
 
     public void LeaveRoom()
     {
@@ -30,9 +36,37 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        waitPanel.gameObject.SetActive(true);
         view = GetComponent<PhotonView>();
         if (view.IsMine == false) Destroy(canvas);
         if(PhotonNetwork.IsMasterClient) StartCoroutine(CheckPlayers());
+        SetupMasterClient();
+    }
+
+    public void DisplayWave(int wave)
+    {
+        for (int i = 0; i < clients.Length; i++)
+        {
+            clients[i].view.RPC("DisplayWaveRPC", clients[i].view.Owner, wave);
+        }
+
+    }
+
+    [PunRPC]
+    void DisplayWaveRPC(int wave)
+    {
+        waveTab.gameObject.SetActive(true);
+        waveTab.SetText("Волна: "+ wave);
+    }
+
+    void SetupMasterClient()
+    {
+        clients = FindObjectsOfType<GameManager>();
+        for (int i = 0; i < clients.Length; i++)
+        {
+            if (clients[i].view.Owner.IsMasterClient == true) master = clients[i];
+        }
+
     }
 
     IEnumerator CheckPlayers()
@@ -74,6 +108,7 @@ public class GameManager : MonoBehaviour
             PhotonView client = clients[i].GetComponent<PhotonView>();
             client.RPC("StartGame", client.Owner);
         }
+        ShowScores();
     }
 
 
@@ -82,9 +117,45 @@ public class GameManager : MonoBehaviour
     {
         Vector3 randVec = Random.insideUnitSphere * 2;
         randVec.y = 1;
-        PhotonNetwork.Instantiate(playerPrefab.name, randVec, Quaternion.identity);
+        GameObject plr = PhotonNetwork.Instantiate(playerPrefab.name, randVec, Quaternion.identity);
+        charater = plr.GetComponent<PlayerHealth>();
         waitPanel.SetActive(false);
     }
+
+    public void ShowScores()
+    {
+        string stringScore = "Игровые очки:\n";
+        for (int i = 0;i < clients.Length;i++)
+        {
+            stringScore += clients[i].view.Owner.NickName + " : " + clients[i].scores + "\n";
+        }
+
+        for (int i = 0; i < clients.Length; i++)
+        {
+            clients[i].view.RPC("DisplayAllScores", clients[i].view.Owner, stringScore);
+        }
+
+    }
+
+    [PunRPC]
+    void DisplayAllScores(string str)
+    {
+        scoreTab.gameObject.SetActive(true);
+        scoreTab.SetText(str);
+    }
+
+
+    public void AddScore(string nick, int score)
+    {
+        for (int i = 0; i < clients.Length; i++)
+        {
+            if (clients[i].view.Owner.NickName == nick) clients[i].scores += score;
+        }
+        ShowScores();
+    }
+
+
+
 
 
 

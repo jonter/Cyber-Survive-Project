@@ -27,7 +27,7 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator SpawnWave()
     {
         wave++;
-        // Обновить инфу о том какая волна идет
+        GameManager.master.DisplayWave(wave);
         int enemyCount = wave * 3 + Random.Range(0, wave+1);
         if(enemyCount > 20) enemyCount = 20 + Random.Range(0, wave);
         GameObject ePrefab = ChooseEnemyPrefab();

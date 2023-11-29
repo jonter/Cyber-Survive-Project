@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.EventSystems;
 
 public class PlayerShoot : MonoBehaviour
 {
@@ -35,6 +36,7 @@ public class PlayerShoot : MonoBehaviour
     {
         if (view.IsMine == false) return;
         if (isAction == true) return;
+        if (EventSystem.current.IsPointerOverGameObject() == true) return;
 
         if (Input.GetKey(KeyCode.Mouse0))
         {

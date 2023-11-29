@@ -14,7 +14,7 @@ public class WaitPanel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        
         if(PhotonNetwork.IsMasterClient == false) startGameButton.gameObject.SetActive(false);
     }
 
