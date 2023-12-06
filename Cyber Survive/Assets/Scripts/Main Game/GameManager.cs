@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject playerPrefab;
     [SerializeField] ScoreTab scoreTab;
     [SerializeField] WaveTab waveTab;
+    [SerializeField] GameOverPanel overPanel;
 
     [HideInInspector] public PhotonView view;
     [HideInInspector] public PlayerHealth charater;
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        overPanel.gameObject.SetActive(false);
         waitPanel.gameObject.SetActive(true);
         view = GetComponent<PhotonView>();
         if (view.IsMine == false) Destroy(canvas);
@@ -109,6 +111,7 @@ public class GameManager : MonoBehaviour
             client.RPC("StartGame", client.Owner);
         }
         ShowScores();
+        StartCoroutine(CheckCharsAlive());
     }
 
 
@@ -154,7 +157,78 @@ public class GameManager : MonoBehaviour
         ShowScores();
     }
 
+    IEnumerator CheckCharsAlive()
+    {
+        yield return new WaitForSeconds(5);
+        PlayerHealth[] characters = FindObjectsOfType<PlayerHealth>();
+        if (characters.Length == 0)
+        {
+            GameOver();
+        }
+        else
+        {
+            StartCoroutine(CheckCharsAlive());
+        }
 
+    }
+
+    void GameOver()
+    {
+        string leaderString = GetLeaderString();
+        int wave = FindObjectOfType<EnemySpawner>().wave;
+        for (int i = 0; i < clients.Length; i++)
+        {
+            int s = clients[i].scores;
+            clients[i].view.RPC("GameOverAll", clients[i].view.Owner, leaderString, wave, s);
+        }
+
+    }
+
+    string GetLeaderString()
+    {
+        string str = "Результаты игры:\n";
+
+        for (int i = 0; i < clients.Length; i++)
+        {
+            GameManager maxClient = clients[i];
+            int maxIndex = i;
+
+            for (int j = i+1; j < clients.Length; j++)
+            {
+                if (clients[j].scores > maxClient.scores)
+                {
+                    maxClient = clients[j];
+                    maxIndex = j;
+                }
+            }
+            GameManager temp = clients[i];
+            clients[i] = maxClient;
+            clients[maxIndex] = temp;
+
+        }
+
+        for (int i = 0; i < clients.Length; i++)
+        {
+            str += clients[i].view.Owner.NickName + " : " + clients[i].scores + "\n";
+        }
+
+
+        return str;
+    }
+
+
+
+    [PunRPC]
+    void GameOverAll(string leaderString, int wave, int score)
+    {
+        int credits = (int) (score + score * wave * 0.1f);
+        int allCredits = PlayerPrefs.GetInt("credits");
+        PlayerPrefs.SetInt("credits", allCredits + credits);
+
+
+        overPanel.gameObject.SetActive(true);
+        overPanel.SetTexts(leaderString, wave, credits);
+    }
 
 
 

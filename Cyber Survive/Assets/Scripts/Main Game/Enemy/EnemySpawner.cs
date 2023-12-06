@@ -8,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] GameObject enemyPrefab;
     EnemySpawnPoint[] spawnPoints;
 
-    int wave = 0;
+    public int wave = 0;
 
     // Start is called before the first frame update
     void Start()
