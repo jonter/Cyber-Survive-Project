@@ -6,17 +6,16 @@ using Photon.Pun;
 
 public class EnemyAI : MonoBehaviour
 {
-    CharacterMovement[] characters;
-    NavMeshAgent agent;
+    protected NavMeshAgent agent;
 
-    Transform target;
-    [SerializeField] float attackDistance = 1.5f;
+    protected Transform target;
+    [SerializeField] protected float attackDistance = 1.5f;
 
-    bool isAction = false;
+    protected bool isAction = false;
     Animator anim;
-    float rotationSpeed = 10;
+    protected float rotationSpeed = 10;
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         anim = GetComponentInChildren<Animator>();
         agent = GetComponent<NavMeshAgent>();
@@ -26,20 +25,19 @@ public class EnemyAI : MonoBehaviour
     }
 
 
-    IEnumerator ChoosePlayerToChase()
+    protected IEnumerator ChoosePlayerToChase()
     {
         yield return new WaitForSeconds(1);
-        characters = FindObjectsOfType<CharacterMovement>();
-        if(characters.Length > 0)
-        {
-            target = SelectClosePlayer();
-        }
+        
+        target = SelectClosePlayer();
 
         StartCoroutine(ChoosePlayerToChase());
     }
 
-    Transform SelectClosePlayer()
+    protected Transform SelectClosePlayer()
     {
+        PlayerHealth[] characters = FindObjectsOfType<PlayerHealth>();
+        if(characters.Length == 0) return null;
         Transform closePlayer = characters[0].transform;
         float minDistance = 10000;
 
@@ -47,7 +45,7 @@ public class EnemyAI : MonoBehaviour
         {
             float distance = Vector3.Distance(transform.position,
                 characters[i].transform.position);
-            PlayerHealth pHealth = characters[i].GetComponent<PlayerHealth>();
+            PlayerHealth pHealth = characters[i];
             if(distance < minDistance && pHealth.isAlive == true)
             {
                 minDistance = distance;
@@ -55,13 +53,13 @@ public class EnemyAI : MonoBehaviour
             }
 
         }
-
+        if (closePlayer.GetComponent<PlayerHealth>().isAlive == false) return null;
         return closePlayer;
     }
 
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if (PhotonNetwork.IsMasterClient == false) return;
         if (target == null) return;
@@ -99,6 +97,7 @@ public class EnemyAI : MonoBehaviour
         isAction = true;
         anim.SetTrigger("attack");
         yield return new WaitForSeconds(13f/30f);
+        if (target == null) yield break;
         float distance = Vector3.Distance(transform.position, target.position);
         if (distance <= attackDistance)
         {
@@ -110,11 +109,12 @@ public class EnemyAI : MonoBehaviour
         isAction = false;
     }
 
-    IEnumerator RotateToPlayer()
+    protected IEnumerator RotateToPlayer()
     {
         float timer = 0;
         while(timer <= 1)
         {
+            if (target == null) yield break;
             timer += Time.deltaTime;
             Vector3 dir = target.position - transform.position;
             Quaternion lookRotation = Quaternion.LookRotation(dir);

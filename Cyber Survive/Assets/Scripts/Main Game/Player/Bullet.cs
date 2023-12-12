@@ -5,8 +5,8 @@ using Photon.Pun;
 
 public class Bullet : MonoBehaviour
 {
-    PhotonView view;
-    float damage = 10;
+    protected PhotonView view;
+    protected float damage = 10;
     // Start is called before the first frame update
     void Awake()
     {
@@ -27,7 +27,7 @@ public class Bullet : MonoBehaviour
         PhotonNetwork.Destroy(gameObject);
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         if (view == null) return;
         if (view.IsMine == false) return;

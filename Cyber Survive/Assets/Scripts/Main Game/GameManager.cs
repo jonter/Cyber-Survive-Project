@@ -33,13 +33,17 @@ public class GameManager : MonoBehaviour
         if (view.IsMine == true) SceneManager.LoadScene(0);
     }
 
+    private void Awake()
+    {
+        view = GetComponent<PhotonView>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         overPanel.gameObject.SetActive(false);
         waitPanel.gameObject.SetActive(true);
-        view = GetComponent<PhotonView>();
+        
         if (view.IsMine == false) Destroy(canvas);
         if(PhotonNetwork.IsMasterClient) StartCoroutine(CheckPlayers());
         SetupMasterClient();

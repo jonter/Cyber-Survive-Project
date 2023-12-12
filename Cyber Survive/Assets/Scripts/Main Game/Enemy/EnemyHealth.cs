@@ -6,15 +6,15 @@ using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
-    [SerializeField] float hp = 20;
-    [SerializeField] int score = 10;
-    float maxHP;
-    PhotonView view;
+    [SerializeField] protected float hp = 20;
+    [SerializeField] protected int score = 10;
+    protected float maxHP;
+    protected PhotonView view;
 
     Animator anim;
-    bool isAlive = true;
+    protected bool isAlive = true;
 
-    [SerializeField] Slider healthBar;
+    [SerializeField] protected Slider healthBar;
     // Start is called before the first frame update
     void Start()
     {
@@ -31,7 +31,7 @@ public class EnemyHealth : MonoBehaviour
     }
 
     [PunRPC]
-    void GetDamage(float damage, string nick)
+    protected void GetDamage(float damage, string nick)
     {
         if (isAlive == false) return;
         hp -= damage;
@@ -44,14 +44,14 @@ public class EnemyHealth : MonoBehaviour
     }
 
     [PunRPC]
-    void UpdateEnemyHealthBar(float percentage)
+    protected void UpdateEnemyHealthBar(float percentage)
     {
         healthBar.value = percentage;
         if (percentage <= 0)
             Destroy(healthBar.gameObject);
     }
 
-    IEnumerator DeathCoroutine(string nick)
+    protected virtual IEnumerator DeathCoroutine(string nick)
     {
         isAlive = false;
         int rand = Random.Range(0, 2);
@@ -65,7 +65,7 @@ public class EnemyHealth : MonoBehaviour
     }
 
     [PunRPC]
-    void DisableColliders()
+    protected virtual void DisableColliders()
     {
         GetComponent<Collider>().enabled = false;
     }

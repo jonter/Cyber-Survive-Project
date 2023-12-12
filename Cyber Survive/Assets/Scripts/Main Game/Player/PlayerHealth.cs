@@ -73,6 +73,7 @@ public class PlayerHealth : MonoBehaviour
             Destroy(healthBar.gameObject);
             SwitchRagdoll(true);
             isAlive = false;
+            GetComponent<Collider>().enabled = false;
         }
     }
 
