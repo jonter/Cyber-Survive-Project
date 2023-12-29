@@ -5,7 +5,9 @@ using Photon.Pun;
 
 public class EnemySpawner : MonoBehaviour
 {
-    [SerializeField] GameObject enemyPrefab;
+    [SerializeField] GameObject robotPrefab;
+    [SerializeField] GameObject dronePrefab;
+    [SerializeField] GameObject kamikadzePrefab;
     EnemySpawnPoint[] spawnPoints;
 
     public int wave = 0;
@@ -28,10 +30,10 @@ public class EnemySpawner : MonoBehaviour
     {
         wave++;
         GameManager.master.DisplayWave(wave);
-        int enemyCount = wave * 3 + Random.Range(0, wave+1);
+        int enemyCount = wave * 3 + Random.Range(0, wave);
         if(enemyCount > 20) enemyCount = 20 + Random.Range(0, wave);
-        GameObject ePrefab = ChooseEnemyPrefab();
-        yield return StartCoroutine(SpawnEnemiesInWave(ePrefab, enemyCount));
+      
+        yield return StartCoroutine(SpawnEnemiesInWave(enemyCount));
         yield return StartCoroutine(WaitForEnemyDeath());
         yield return new WaitForSeconds(5);
 
@@ -50,12 +52,13 @@ public class EnemySpawner : MonoBehaviour
 
     }
 
-    IEnumerator SpawnEnemiesInWave(GameObject ePrefab, int count)
+    IEnumerator SpawnEnemiesInWave( int count)
     {
         int rand = Random.Range(0, spawnPoints.Length);
         Vector3 spawnPos = spawnPoints[rand].transform.position;
         for (int i = 0; i < count; i++)
         {
+            GameObject ePrefab = ChooseEnemyPrefab();
             Vector3 randVec = Random.insideUnitSphere * 2;
             randVec.y = 0;
             randVec += spawnPos;
@@ -67,8 +70,14 @@ public class EnemySpawner : MonoBehaviour
 
     GameObject ChooseEnemyPrefab()
     {
-        // написать логику выбора врагов
-        return enemyPrefab;
+        float rand = Random.Range(0f, wave);
+        if (rand >= 10) rand = Random.Range(0f, 10f);
+        
+        if (rand <= 3) return robotPrefab;
+        else if (rand <= 6) return dronePrefab;
+;       
+        return kamikadzePrefab;
+
     }
 
     

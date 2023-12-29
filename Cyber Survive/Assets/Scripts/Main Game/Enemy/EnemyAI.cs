@@ -77,6 +77,7 @@ public class EnemyAI : MonoBehaviour
     private void OnDisable()
     {
         agent.SetDestination(transform.position);
+        agent.enabled = false;
     }
 
     void AnimHandle()

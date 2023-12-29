@@ -2,6 +2,7 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class DroneHealth : EnemyHealth
 {
@@ -9,8 +10,8 @@ public class DroneHealth : EnemyHealth
     protected override IEnumerator DeathCoroutine(string nick)
     {
         isAlive = false;
-        
         GetComponent<EnemyAI>().enabled = false;
+        
         GameManager.master.AddScore(nick, score);
         view.RPC("DisableColliders", RpcTarget.All);
         yield return new WaitForSeconds(10);

@@ -38,7 +38,7 @@ Transform:
   m_Children:
   - {fileID: 7786488994690009895}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7816489410915504419
 MeshFilter:
@@ -193,8 +193,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 810d2c57568b4a94f89816337c2e7934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 20
-  score: 10
+  hp: 50
+  score: 30
   healthBar: {fileID: 7786488994347545727}
 --- !u!1 &7786488993277492077
 GameObject:
