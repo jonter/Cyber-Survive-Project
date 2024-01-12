@@ -11,6 +11,13 @@ public class CharacterMovement : MonoBehaviour
 
     [SerializeField] Animator anim;
 
+    public IEnumerator IncreseSpeedCoroutine(float duration)
+    {
+        maxSpeed *= 1.3f;
+        yield return new WaitForSeconds(duration);
+        maxSpeed /= 1.3f;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

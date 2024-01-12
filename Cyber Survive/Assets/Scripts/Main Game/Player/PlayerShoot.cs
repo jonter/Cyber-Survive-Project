@@ -18,6 +18,13 @@ public class PlayerShoot : MonoBehaviour
 
     float damage = 10;
 
+    public IEnumerator IncreseFireCoroutine(float duration)
+    {
+        fireRate *= 1.7f;
+        yield return new WaitForSeconds(duration);
+        fireRate /= 1.7f;
+    }
+
     IEnumerator BusyWeapon()
     {
         isAction = true;

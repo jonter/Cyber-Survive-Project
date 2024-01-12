@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] ScoreTab scoreTab;
     [SerializeField] WaveTab waveTab;
     [SerializeField] GameOverPanel overPanel;
+    [SerializeField] SkillDisplay skillDisplay;
 
     [HideInInspector] public PhotonView view;
     [HideInInspector] public PlayerHealth charater;
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
     {
         overPanel.gameObject.SetActive(false);
         waitPanel.gameObject.SetActive(true);
+        skillDisplay.gameObject.SetActive(false);
         
         if (view.IsMine == false) Destroy(canvas);
         if(PhotonNetwork.IsMasterClient) StartCoroutine(CheckPlayers());
@@ -127,6 +129,8 @@ public class GameManager : MonoBehaviour
         GameObject plr = PhotonNetwork.Instantiate(playerPrefab.name, randVec, Quaternion.identity);
         charater = plr.GetComponent<PlayerHealth>();
         waitPanel.SetActive(false);
+        skillDisplay.gameObject.SetActive(true);
+        charater.GetComponent<PlayerSkill>().display = skillDisplay;
     }
 
     public void ShowScores()
