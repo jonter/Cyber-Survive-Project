@@ -21,11 +21,20 @@ public class PlayerHealth : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        view = GetComponent<PhotonView>();
+        SetupHealth();
         playerRig = GetComponentInChildren<RigBuilder>();
         hp = maxHp;
         healthBar.value = hp / maxHp;
-        view = GetComponent<PhotonView>();
         SwitchRagdoll(false);
+    }
+
+    void SetupHealth()
+    {
+        if (view.IsMine == false) return;
+        int level = PlayerPrefs.GetInt("level");
+        maxHp = 100 + level * 50;
+        hp = maxHp;
     }
 
     void SwitchRagdoll(bool isOn)
@@ -46,7 +55,7 @@ public class PlayerHealth : MonoBehaviour
     {
         if (isAlive == false) return;
         hp -= damage;
-        view.RPC("DisplayHealth", RpcTarget.All, hp);
+        view.RPC("DisplayHealth", RpcTarget.All, hp/maxHp);
 
         if(hp <= 0.001f)
         {
@@ -65,10 +74,10 @@ public class PlayerHealth : MonoBehaviour
     }
 
     [PunRPC]
-    void DisplayHealth(float newHP)
+    void DisplayHealth(float percent)
     {
-        healthBar.value =  newHP / maxHp;
-        if(newHP <= 0.0001f)
+        healthBar.value =  percent;
+        if(percent <= 0.0001f)
         {
             Destroy(healthBar.gameObject);
             SwitchRagdoll(true);

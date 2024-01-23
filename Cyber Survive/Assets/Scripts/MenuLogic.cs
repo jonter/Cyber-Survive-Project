@@ -8,29 +8,91 @@ using Photon.Realtime;
 
 public class MenuLogic : MonoBehaviourPunCallbacks
 {
-    [SerializeField] Button createButton;
-    [SerializeField] Button joinRandomButton;
+    [SerializeField] Button openCreatePanelButton;
+    [SerializeField] Button openJoinPanelButton;
     [SerializeField] TMP_InputField inputField;
+
+    [SerializeField] GameObject createRoomPanel;
+    [SerializeField] GameObject joinRoomPanel;
+
+    [SerializeField] Button closeCreatePanelButton;
+    [SerializeField] Button closeJoinPanelButton;
+
+    [Header("Настройки присоединения к комнате")]
+    [SerializeField] GameObject joinButtonPrefab;
+    [SerializeField] GameObject content;
+    [SerializeField] GameObject warningText;
+
+    List<JoinRoomButton> roomButtons;
 
     // Start is called before the first frame update
     void Start()
     {
-        createButton.interactable = false;
-        joinRandomButton.interactable = false;
+        roomButtons = new List<JoinRoomButton>(); 
+        openCreatePanelButton.interactable = false;
+        openJoinPanelButton.interactable = false;
 
         PhotonNetwork.GameVersion = "1";
         PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
 
-        createButton.onClick.AddListener(CreateRoom);
-        joinRandomButton.onClick.AddListener(JoinRandomRoom);
+        openCreatePanelButton.onClick.AddListener(OpenCreatePanel);
+        closeCreatePanelButton.onClick.AddListener(CloseCreatePanel);
+        openJoinPanelButton.onClick.AddListener(OpenJoinPanel);
+        closeJoinPanelButton.onClick.AddListener(CloseJoinPanel);
     }
+
+    void OpenCreatePanel() 
+    {
+        PhotonNetwork.NickName = GetName();
+        createRoomPanel.SetActive(true);
+    }
+    void OpenJoinPanel() 
+    {
+        PhotonNetwork.NickName = GetName();
+        joinRoomPanel.SetActive(true);
+    }
+
+    void CloseCreatePanel() { createRoomPanel.SetActive(false); }
+    void CloseJoinPanel() { joinRoomPanel.SetActive(false); }
 
     public override void OnConnectedToMaster()
     {
-        createButton.interactable = true;
-        joinRandomButton.interactable = true;
+        openCreatePanelButton.interactable = true;
+        openJoinPanelButton.interactable = true;
         print("Connect To Master Server");
+        PhotonNetwork.JoinLobby();
+    }
+
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        foreach (RoomInfo info in roomList)
+        {
+            JoinRoomButton updatedButton = null;
+            foreach(JoinRoomButton button in roomButtons)
+            {
+                if (button.roomInfo.Name == info.Name) 
+                    updatedButton = button;
+            }
+            if(updatedButton == null) 
+            {
+                GameObject clone = Instantiate(joinButtonPrefab, content.transform);
+                JoinRoomButton btn = clone.GetComponent<JoinRoomButton>();
+                btn.SetupButton(info);
+                roomButtons.Add(btn);
+            }
+            else if (info.RemovedFromList == true)
+            {
+                Destroy(updatedButton.gameObject);
+                roomButtons.Remove(updatedButton);
+            }
+            else
+            {
+                updatedButton.SetupButton(info);
+            }
+        }
+
     }
 
     public override void OnDisconnected(DisconnectCause cause)
@@ -47,22 +109,6 @@ public class MenuLogic : MonoBehaviourPunCallbacks
             name = "Player " + Random.Range(0, 9999);
         }
         return name;
-    }
-
-    void CreateRoom()
-    {
-        PhotonNetwork.NickName = GetName();
-        RoomOptions options = new RoomOptions();
-        options.MaxPlayers = 4;
-        options.IsOpen = true;
-
-        PhotonNetwork.CreateRoom(null, options);
-    }
-
-    void JoinRandomRoom()
-    {
-        PhotonNetwork.NickName = GetName();
-        PhotonNetwork.JoinRandomRoom();
     }
 
     public override void OnJoinedRoom()

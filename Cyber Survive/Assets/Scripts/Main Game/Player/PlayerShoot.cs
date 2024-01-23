@@ -36,6 +36,9 @@ public class PlayerShoot : MonoBehaviour
     void Start()
     {
         view = GetComponent<PhotonView>();
+        if (view.IsMine == false) return;
+        int level = PlayerPrefs.GetInt("level");
+        damage = 10 + level * 2;
     }
 
     // Update is called once per frame
