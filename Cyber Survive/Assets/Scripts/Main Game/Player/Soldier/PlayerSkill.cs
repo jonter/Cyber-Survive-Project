@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
+// Stopped here...
 public class PlayerSkill : MonoBehaviour
 {
     [SerializeField] ParticleSystem skillVFX;
@@ -12,7 +13,7 @@ public class PlayerSkill : MonoBehaviour
     float reloadTime = 30;
 
     CharacterMovement charMove;
-    PlayerShoot playerShoot;
+    SoldierShoot playerShoot;
 
     bool isReloaded = true;
     PhotonView view;
@@ -21,7 +22,7 @@ public class PlayerSkill : MonoBehaviour
     {
         view = GetComponent<PhotonView>();
         charMove = GetComponent<CharacterMovement>();
-        playerShoot = GetComponent<PlayerShoot>();
+        playerShoot = GetComponent<SoldierShoot>();
     }
 
     // Update is called once per frame

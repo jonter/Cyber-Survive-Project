@@ -4,19 +4,19 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEngine.EventSystems;
 
-public class PlayerShoot : MonoBehaviour
+public class SoldierShoot : MonoBehaviour
 {
-    [SerializeField] GameObject bulletPrefab;
-    [SerializeField] Transform shootPoint;
-    PhotonView view;
-    [SerializeField] ParticleSystem fireVFX;
+    [SerializeField] protected GameObject projectilePrefab;
+    [SerializeField] protected Transform shootPoint;
+    protected PhotonView view;
+    [SerializeField] protected ParticleSystem fireVFX;
 
-    float bulletSpeed = 15;
+    protected float bulletSpeed = 15;
 
-    float fireRate = 3;
-    bool isAction = false;
+    protected float fireRate = 3;
+    protected bool isAction = false;
 
-    float damage = 10;
+    protected float damage = 10;
 
     public IEnumerator IncreseFireCoroutine(float duration)
     {
@@ -25,15 +25,15 @@ public class PlayerShoot : MonoBehaviour
         fireRate /= 1.7f;
     }
 
-    IEnumerator BusyWeapon()
+    protected IEnumerator BusyWeapon()
     {
         isAction = true;
-        yield return new WaitForSeconds(1/fireRate);
+        yield return new WaitForSeconds(1 / fireRate);
         isAction = false;
     }
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         view = GetComponent<PhotonView>();
         if (view.IsMine == false) return;
@@ -42,27 +42,34 @@ public class PlayerShoot : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
-        if (view.IsMine == false) return;
-        if (isAction == true) return;
-        if (EventSystem.current.IsPointerOverGameObject() == true) return;
+        if (CanShoot() == false) return;
 
         if (Input.GetKey(KeyCode.Mouse0))
         {
             StartCoroutine(BusyWeapon());
             Vector3 spawnPos = shootPoint.position;
-            GameObject newBullet = PhotonNetwork.Instantiate(bulletPrefab.name,
+            GameObject newBullet = PhotonNetwork.Instantiate(projectilePrefab.name,
                 spawnPos, transform.rotation);
             newBullet.GetComponent<Bullet>().Launch(damage, transform.forward * bulletSpeed);
-            
+
             view.RPC("PlayFireEffect", RpcTarget.All);
         }
-        
+
+    }
+
+    protected bool CanShoot()
+    {
+        if (view.IsMine == false) return false;
+        if (isAction == true) return false;
+        if (EventSystem.current.IsPointerOverGameObject() == true) return false;
+
+        return true;
     }
 
     [PunRPC]
-    void PlayFireEffect()
+    protected void PlayFireEffect()
     {
         fireVFX.Play();
     }

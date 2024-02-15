@@ -63,12 +63,22 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    [PunRPC]
+    public void RestoreHealth(float restore)
+    {
+        if (isAlive == false) return;
+        hp += restore;
+        if (hp > maxHp) hp = maxHp;
+        view.RPC("DisplayHealth", RpcTarget.All, hp / maxHp);
+    }
+
+
     IEnumerator KillPlayer()
     {
         isAlive = false;
         GetComponent<CharacterMovement>().enabled = false;
         GetComponent<PlayerAim>().enabled = false;
-        GetComponent<PlayerShoot>().enabled = false;
+        GetComponent<SoldierShoot>().enabled = false;
         yield return new WaitForSeconds(5);
         PhotonNetwork.Destroy(gameObject);
     }

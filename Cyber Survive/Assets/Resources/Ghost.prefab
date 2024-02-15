@@ -1301,7 +1301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 6613027080485144572}
   waitPanel: {fileID: 7541696952139301464}
-  playerPrefab: {fileID: 7286516970568245334, guid: cb859e422be44d640905dce75fccb9fd, type: 3}
+  playerPrefab: {fileID: 7286516970568245334, guid: 500d2d163c0d58646b3e3bb8073abf80, type: 3}
   scoreTab: {fileID: 6105097662787068880}
   waveTab: {fileID: 3045065843390178090}
   overPanel: {fileID: 2087807661947860324}
