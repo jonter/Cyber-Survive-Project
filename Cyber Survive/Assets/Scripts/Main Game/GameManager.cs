@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] GameObject canvas;
     [SerializeField] GameObject waitPanel;
-    [SerializeField] GameObject playerPrefab;
+    [SerializeField] public GameObject playerPrefab;
     [SerializeField] ScoreTab scoreTab;
     [SerializeField] WaveTab waveTab;
     [SerializeField] GameOverPanel overPanel;
@@ -130,7 +130,7 @@ public class GameManager : MonoBehaviour
         charater = plr.GetComponent<PlayerHealth>();
         waitPanel.SetActive(false);
         skillDisplay.gameObject.SetActive(true);
-        charater.GetComponent<PlayerSkill>().display = skillDisplay;
+        charater.GetComponent<SoldierSkill>().display = skillDisplay;
     }
 
     public void ShowScores()

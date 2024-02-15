@@ -10398,9 +10398,9 @@ GameObject:
   - component: {fileID: 7813392122290489474}
   - component: {fileID: 3303455958142279791}
   - component: {fileID: 8820283770175173124}
-  - component: {fileID: 6905691059621203575}
   - component: {fileID: 8579370119219890075}
   - component: {fileID: 7105229423814119479}
+  - component: {fileID: 1344936045751122336}
   m_Layer: 10
   m_Name: Char Medic
   m_TagString: Untagged
@@ -10565,26 +10565,12 @@ MonoBehaviour:
   - {fileID: 4512060101098446518}
   - {fileID: 9045336958659597957}
   - {fileID: 4504313300308671910}
-  - {fileID: 0}
+  - {fileID: 2279312485374988595}
   - {fileID: 1508349632511900592}
   - {fileID: 4653746292438755172}
   - {fileID: 1538379093414843447}
   - {fileID: 3681068157878305797}
   isAlive: 1
---- !u!114 &6905691059621203575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7286516970568245334}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cfd9373e4bab8741ba1295e935ce9c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillVFX: {fileID: 0}
-  display: {fileID: 0}
 --- !u!114 &8579370119219890075
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10611,8 +10597,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 0}
-  shootPoint: {fileID: 1725373253998865276}
+  shootPoint: {fileID: 7386016393157262829}
   fireVFX: {fileID: 6287644615861916441}
+--- !u!114 &1344936045751122336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7286516970568245334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58a6305bb32ed1f4f8debe49aa87630f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillVFX: {fileID: 0}
+  display: {fileID: 0}
+  skillIcon: {fileID: 21300000, guid: 8144acae632f40449aa9f42c8ccc8074, type: 3}
+  healingWardPrefab: {fileID: 955832247963646064, guid: 8c5018b92c54a9441bd08e2f033461cf, type: 3}
 --- !u!1 &7311615812966177555
 GameObject:
   m_ObjectHideFlags: 0
@@ -11038,6 +11040,37 @@ Transform:
   m_Father: {fileID: 996372246443383029}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -0.24664557, y: 0.36131483, z: 10.449345}
+--- !u!1 &7711209385664019762
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7386016393157262829}
+  m_Layer: 12
+  m_Name: ShootPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7386016393157262829
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7711209385664019762}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.107, y: 0.015, z: -0.198}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4651574220344396593}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7828424557384218505
 GameObject:
   m_ObjectHideFlags: 0
@@ -11699,6 +11732,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4959576490554332, guid: 63a05b38d307b10488a7ebbb73b7f178, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1725373253998865276}
+    - targetCorrespondingSourceObject: {fileID: 4959576490554332, guid: 63a05b38d307b10488a7ebbb73b7f178, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7386016393157262829}
   m_SourcePrefab: {fileID: 100100000, guid: 63a05b38d307b10488a7ebbb73b7f178, type: 3}
 --- !u!4 &4651574220344396593 stripped
 Transform:

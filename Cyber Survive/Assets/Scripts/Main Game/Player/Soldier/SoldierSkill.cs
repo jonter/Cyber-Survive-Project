@@ -3,30 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-// Stopped here...
-public class PlayerSkill : MonoBehaviour
+
+public class SoldierSkill : MonoBehaviour
 {
     [SerializeField] ParticleSystem skillVFX;
     [HideInInspector] public SkillDisplay display;
 
-    float duration = 5;
-    float reloadTime = 30;
+    protected float duration = 5;
+    protected float reloadTime = 30;
 
     CharacterMovement charMove;
     SoldierShoot playerShoot;
 
-    bool isReloaded = true;
-    PhotonView view;
+    protected bool isReloaded = true;
+    protected PhotonView view;
+
+    [SerializeField] Sprite skillIcon;
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         view = GetComponent<PhotonView>();
         charMove = GetComponent<CharacterMovement>();
         playerShoot = GetComponent<SoldierShoot>();
+        if(view.IsMine) display.ChangeIcon(skillIcon);
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         if (view.IsMine == false) return;
         if (Input.GetKeyDown(KeyCode.G))
@@ -36,7 +39,7 @@ public class PlayerSkill : MonoBehaviour
     }
 
 
-    IEnumerator ActivateSkill()
+    protected virtual IEnumerator ActivateSkill()
     {
         if(isReloaded == false) yield break;
         isReloaded = false;

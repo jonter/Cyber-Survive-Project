@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 960864546880614040}
   - component: {fileID: 953757436054113204}
   - component: {fileID: 941762172834732626}
+  - component: {fileID: 3591742629982430527}
+  - component: {fileID: 566972948277021331}
   m_Layer: 0
   m_Name: Healing Ward
   m_TagString: Untagged
@@ -25,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 955832247963646064}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.66503227, y: 0, z: -2.5409799}
   m_LocalScale: {x: 1, y: 0.4, z: 1}
   m_ConstrainProportionsScale: 0
@@ -84,6 +86,41 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &3591742629982430527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 955832247963646064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &566972948277021331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 955832247963646064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd574701674574f469cb8c632bf67319, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healRadius: 3.5
 --- !u!1 &3839680952469981556
 GameObject:
   m_ObjectHideFlags: 0

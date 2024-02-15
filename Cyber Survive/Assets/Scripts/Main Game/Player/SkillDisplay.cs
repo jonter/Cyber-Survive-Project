@@ -7,6 +7,11 @@ public class SkillDisplay : MonoBehaviour
 {
     [SerializeField] Image reloadImage;
 
+    public void ChangeIcon(Sprite spr)
+    {
+        transform.GetChild(0).GetComponent<Image>().sprite = spr;
+    }
+
     public void Reload(float duration)
     {
         reloadImage.fillAmount = 1;
