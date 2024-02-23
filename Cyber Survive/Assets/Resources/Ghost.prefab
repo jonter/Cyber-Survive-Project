@@ -1940,9 +1940,11 @@ MonoBehaviour:
   classPrefabs:
   - {fileID: 7286516970568245334, guid: cb859e422be44d640905dce75fccb9fd, type: 3}
   - {fileID: 7286516970568245334, guid: 500d2d163c0d58646b3e3bb8073abf80, type: 3}
+  - {fileID: 7286516970568245334, guid: 2d16d4aceabdc254599b3c90dee628d7, type: 3}
   classIcons:
   - {fileID: 21300000, guid: db7e2dc1a8334d94482fe0e0a13d9287, type: 3}
   - {fileID: 21300000, guid: 8144acae632f40449aa9f42c8ccc8074, type: 3}
+  - {fileID: 21300000, guid: d3f16ebab9d0dc54f8fb385141bd4942, type: 3}
 --- !u!1 &4573105955155580327
 GameObject:
   m_ObjectHideFlags: 0

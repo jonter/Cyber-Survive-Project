@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5105632928504851120}
   - component: {fileID: 5105632928504851121}
   - component: {fileID: 5105632928504851134}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Kamikadze Drone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,7 +206,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5105632928925844932}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 5105632929555124012}
   - component: {fileID: 5105632929555124010}
   - component: {fileID: 5105632929555124013}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -323,7 +323,7 @@ GameObject:
   - component: {fileID: 5105632929718994549}
   - component: {fileID: 5105632929718994548}
   - component: {fileID: 5105632929718994551}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Canvas Above
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -435,7 +435,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5105632929821311050}
   - component: {fileID: 5105632929821311053}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Enemy HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -527,7 +527,7 @@ GameObject:
   - component: {fileID: 5105632930226052093}
   - component: {fileID: 5105632930226052091}
   - component: {fileID: 5105632930226052090}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -603,7 +603,7 @@ GameObject:
   - component: {fileID: 5105632930254815871}
   - component: {fileID: 5105632930254815869}
   - component: {fileID: 5105632930254815868}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Electric VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5425,7 +5425,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5105632930516085987}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5464,7 +5464,7 @@ GameObject:
   - component: {fileID: 5105632930549062727}
   - component: {fileID: 5105632930549062724}
   - component: {fileID: 5105632930549062725}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

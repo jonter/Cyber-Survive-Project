@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 7786488994101073179}
   - component: {fileID: 7786488994101073178}
   - component: {fileID: 7786488992829085280}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Drone Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -205,7 +205,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7786488993277492076}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Handle Slide Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 7786488993528388247}
   - component: {fileID: 7786488993528388265}
   - component: {fileID: 7786488993528388246}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -320,7 +320,7 @@ GameObject:
   - component: {fileID: 7786488993740799342}
   - component: {fileID: 7786488993740799328}
   - component: {fileID: 7786488993740799329}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -394,7 +394,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7786488994153232894}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Fill Area
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -432,7 +432,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7786488994347545724}
   - component: {fileID: 7786488994347545727}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Enemy HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -524,7 +524,7 @@ GameObject:
   - component: {fileID: 7786488994572682321}
   - component: {fileID: 7786488994572682323}
   - component: {fileID: 7786488994572682320}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -602,7 +602,7 @@ GameObject:
   - component: {fileID: 7786488994690009912}
   - component: {fileID: 7786488994690009913}
   - component: {fileID: 7786488994690009894}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Canvas Above
   m_TagString: Untagged
   m_Icon: {fileID: 0}
