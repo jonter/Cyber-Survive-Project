@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class TechesShoot : SoldierShoot
 {
+    [SerializeField] Camera cam;
      
     protected override void Start()
     {
         fireRate = 0.5f;
-        damage = 30;
+        damage = 20;
         view = GetComponent<PhotonView>();
     }
 
@@ -28,13 +29,20 @@ public class TechesShoot : SoldierShoot
 
     void MakeShoot()
     {
-        Vector3 dir = transform.position + transform.forward * 7;
+        Ray r = cam.ScreenPointToRay(Input.mousePosition);
+        LayerMask aimLayer = LayerMask.GetMask("Aim");
+        RaycastHit hitInfo;
+        Physics.Raycast(r, out hitInfo, 100, aimLayer);
+        if (hitInfo.transform == null) return;
+        float distance = Vector3.Distance(transform.position, hitInfo.point);
+        distance = Mathf.Clamp(distance, 4, 13);
+
+        Vector3 dir = transform.position + transform.forward * distance;
         dir.y = 0;
         GameObject grenade = PhotonNetwork.Instantiate(projectilePrefab.name,
             shootPoint.position, shootPoint.rotation);
-        grenade.GetComponent<Grenade>().Launch(dir, damage, 1);
-
-
+        float flyTime = 0.6f + distance * 0.05f;
+        grenade.GetComponent<Grenade>().Launch(dir, damage, flyTime);
     }
 
 }

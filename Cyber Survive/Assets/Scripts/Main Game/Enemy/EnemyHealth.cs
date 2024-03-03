@@ -15,6 +15,12 @@ public class EnemyHealth : MonoBehaviour
     protected bool isAlive = true;
 
     [SerializeField] protected Slider healthBar;
+
+    public bool GetAlive()
+    {
+        return isAlive;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,8 +53,12 @@ public class EnemyHealth : MonoBehaviour
     protected void UpdateEnemyHealthBar(float percentage)
     {
         healthBar.value = percentage;
-        if (percentage <= 0)
+        if (percentage <= 0.001f)
+        {
             Destroy(healthBar.gameObject);
+            isAlive = false;
+        }
+            
     }
 
     protected virtual IEnumerator DeathCoroutine(string nick)

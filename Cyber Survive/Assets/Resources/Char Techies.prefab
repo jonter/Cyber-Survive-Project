@@ -10615,6 +10615,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 1040150914972063166, guid: 3da598a3bf9b1d046b4e41c7eb53eb58, type: 3}
   shootPoint: {fileID: 7386016393157262829}
   fireVFX: {fileID: 6287644615861916441}
+  cam: {fileID: 6797850385003083762}
 --- !u!1 &7311615812966177555
 GameObject:
   m_ObjectHideFlags: 0
