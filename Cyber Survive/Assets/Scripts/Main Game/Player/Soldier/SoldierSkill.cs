@@ -13,7 +13,7 @@ public class SoldierSkill : MonoBehaviour
     protected float reloadTime = 30;
 
     CharacterMovement charMove;
-    SoldierShoot playerShoot;
+    protected SoldierShoot playerShoot;
 
     protected bool isReloaded = true;
     protected PhotonView view;
