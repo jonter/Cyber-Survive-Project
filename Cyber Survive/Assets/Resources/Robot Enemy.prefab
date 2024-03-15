@@ -369,10 +369,10 @@ MonoBehaviour:
     SynchronizeType: 2
     Name: attack
   - Type: 9
-    SynchronizeType: 2
+    SynchronizeType: 0
     Name: death1
   - Type: 9
-    SynchronizeType: 2
+    SynchronizeType: 0
     Name: death2
   m_SynchronizeLayers:
   - SynchronizeType: 2

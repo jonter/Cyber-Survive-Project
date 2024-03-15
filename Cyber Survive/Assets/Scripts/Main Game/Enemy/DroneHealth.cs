@@ -13,13 +13,13 @@ public class DroneHealth : EnemyHealth
         GetComponent<EnemyAI>().enabled = false;
         
         GameManager.master.AddScore(nick, score);
-        view.RPC("DisableColliders", RpcTarget.All);
+        view.RPC("DeathRPC", RpcTarget.All);
         yield return new WaitForSeconds(10);
         PhotonNetwork.Destroy(gameObject);
     }
 
     [PunRPC]
-    protected override void DisableColliders()
+    protected override void DeathRPC()
     {
         view.enabled = false;
         GetComponent<PhotonTransformView>().enabled = false;

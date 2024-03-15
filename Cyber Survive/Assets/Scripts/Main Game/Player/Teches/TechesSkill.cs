@@ -68,7 +68,9 @@ public class TechesSkill : SoldierSkill
         Quaternion spawnRot = spawnTurrelZone.transform.rotation;
         GameObject turrel = 
             PhotonNetwork.Instantiate(turrelPrefab.name, spawnPos, spawnRot);
-        // настроить туррель
+        Turrel t = turrel.GetComponent<Turrel>();
+        t.Setup(damage, fireRate, 10);
+
         display.Reload(reloadTime);
         yield return new WaitForSeconds(reloadTime);
         isReloaded = true;

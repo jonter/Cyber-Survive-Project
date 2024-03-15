@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using DG.Tweening;
 
 public class Turrel : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class Turrel : MonoBehaviour
     EnemyHealth target;
     PhotonView view;
 
+    [SerializeField] Transform topPart;
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
@@ -25,11 +28,46 @@ public class Turrel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        topPart.localPosition = new Vector3(0, 50, 0);
+        topPart.DOLocalMoveY(0.5f, 0.5f).SetEase(Ease.InSine);
         view = GetComponent<PhotonView>();
         shootLine = GetComponentInChildren<LineRenderer>();
         if (view.IsMine == false) return;
         StartCoroutine(SearchEnemy());
     }
+
+    private void OnDestroy()
+    {
+        topPart.DOKill();
+        transform.DOKill();
+    }
+
+    public void Setup(float damage, float fireRate, float duration)
+    {
+        this.damage = damage;
+        this.fireRate = fireRate;
+        StartCoroutine(DissolveTurrel(duration));
+    }
+
+    IEnumerator DissolveTurrel(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        view.RPC("HideTurrel", RpcTarget.All);
+        yield return new WaitForSeconds(0.6f);
+        PhotonNetwork.Destroy(gameObject);
+    }
+
+    [PunRPC]
+    void HideTurrel()
+    {
+        topPart.DOLocalMoveY(60f, 0.5f).SetEase(Ease.InSine);
+        enabled = false;
+        transform.DOMoveY(-2, 0.5f).SetDelay(0.1f);
+        Vector3 rot = new Vector3(0, 180, 0);
+        transform.DORotate(rot, 0.5f, RotateMode.WorldAxisAdd).SetDelay(0.1f);
+    }
+
+ 
 
     IEnumerator SearchEnemy()
     {

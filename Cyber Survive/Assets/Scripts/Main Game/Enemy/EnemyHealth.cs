@@ -63,20 +63,20 @@ public class EnemyHealth : MonoBehaviour
 
     protected virtual IEnumerator DeathCoroutine(string nick)
     {
-        isAlive = false;
-        int rand = Random.Range(0, 2);
-        if (rand == 0) anim.SetTrigger("death1");
-        else anim.SetTrigger("death2");
         GetComponent<EnemyAI>().enabled = false;
         GameManager.master.AddScore(nick, score);
-        view.RPC("DisableColliders", RpcTarget.All);
+        view.RPC("DeathRPC", RpcTarget.All);
         yield return new WaitForSeconds(10);
         PhotonNetwork.Destroy(gameObject);
     }
 
     [PunRPC]
-    protected virtual void DisableColliders()
+    protected virtual void DeathRPC()
     {
+        isAlive = false;
+        int rand = Random.Range(0, 2);
+        if (rand == 0) anim.SetTrigger("death1");
+        else anim.SetTrigger("death2");
         GetComponent<Collider>().enabled = false;
     }
     

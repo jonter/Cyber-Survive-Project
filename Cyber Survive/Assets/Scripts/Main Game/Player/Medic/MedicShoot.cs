@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class MedicShoot : SoldierShoot
 {
-    float bulletCount = 15;
+    float bulletCount = 20;
 
     protected override void Start()
     {
@@ -30,10 +30,10 @@ public class MedicShoot : SoldierShoot
 
     void MakeRaycasts()
     {
-        LayerMask layer = LayerMask.GetMask("Default", "Env");
+        LayerMask layer = LayerMask.GetMask("Default", "Env", "Enemy");
         for (int i = 1; i <= bulletCount; i++)
         {
-            float angle = Random.Range(-i, i);
+            float angle = Random.Range(-i * 0.75f, i * 0.75f);
             Quaternion randomRot = Quaternion.AngleAxis(angle, Vector3.up);
             Vector3 dir = randomRot * transform.forward;
             RaycastHit hitInfo;

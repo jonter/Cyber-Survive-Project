@@ -54,6 +54,9 @@ MonoBehaviour:
   - DisplayLevel
   - RestoreHealth
   - DrawLine
+  - HideTopPart
+  - DeathRPC
+  - HideTurrel
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1
