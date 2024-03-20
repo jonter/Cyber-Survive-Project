@@ -12,7 +12,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] protected float attackDistance = 1.5f;
 
     protected bool isAction = false;
-    Animator anim;
+    protected Animator anim;
     protected float rotationSpeed = 10;
     // Start is called before the first frame update
     protected virtual void Start()
@@ -80,7 +80,7 @@ public class EnemyAI : MonoBehaviour
         agent.enabled = false;
     }
 
-    void AnimHandle()
+     void AnimHandle()
     {
         if(agent.desiredVelocity.magnitude < 0.1f)
         {
