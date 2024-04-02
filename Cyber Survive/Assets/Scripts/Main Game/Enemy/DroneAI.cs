@@ -43,7 +43,7 @@ public class DroneAI : EnemyAI
     {
         agent.SetDestination(transform.position);
         isAction = true;
-        StartCoroutine(RotateToPlayer());
+        StartCoroutine(RotateToPlayer(1));
         yield return new WaitForSeconds(0.5f);
         Quaternion rot = Quaternion.LookRotation(transform.forward);
         GameObject clone = PhotonNetwork.Instantiate(bulletPrefab.name,

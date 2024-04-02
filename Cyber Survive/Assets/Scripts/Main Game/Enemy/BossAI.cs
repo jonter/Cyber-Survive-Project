@@ -9,7 +9,8 @@ public class BossAI : EnemyAI
     float timeBeforeAbility = 0;
     BoxCollider damageTrigger;
     float damage = 40;
-    ParticleSystem fireVFX;
+    [SerializeField] ParticleSystem fireVFX;
+    [SerializeField] GameObject rocketPrefab;
 
     private void OnDrawGizmosSelected()
     {
@@ -27,7 +28,7 @@ public class BossAI : EnemyAI
             .GetComponent<BoxCollider>();
 
         damageTrigger.enabled = false;
-        fireVFX = damageTrigger.GetComponent<ParticleSystem>();
+        rotationSpeed = 15;
     }
 
 
@@ -43,7 +44,7 @@ public class BossAI : EnemyAI
 
         if(timeBeforeAbility >= 15)
         {
-            // сделать вызов способности  (топнуть)
+            StartCoroutine(MakeSkillCoroutine());
             timeBeforeAbility = 0;
         }
         else if (distance <= attackDistance)
@@ -52,6 +53,31 @@ public class BossAI : EnemyAI
         }
         HandleMoveAnim();
     }
+
+    IEnumerator MakeSkillCoroutine()
+    {
+        isAction = true;
+        anim.SetTrigger("stomp");
+        yield return new WaitForSeconds(25f / 30f);
+        SpawnBombsAroundBoss();
+        // спаунить бомбы вокруг игроков
+        yield return new WaitForSeconds(35f / 30f);
+        isAction = false;
+    }
+
+    void SpawnBombsAroundBoss()
+    {
+        Vector3 pos1 = transform.position + new Vector3(3,0,0);
+        Vector3 pos2 = transform.position + new Vector3(-3,0,0);
+        Vector3 pos3 = transform.position + new Vector3(0,0,3);
+        Vector3 pos4 = transform.position + new Vector3(0,0,-3);
+
+        PhotonNetwork.Instantiate(rocketPrefab.name, pos1, Quaternion.identity);
+        PhotonNetwork.Instantiate(rocketPrefab.name, pos2, Quaternion.identity);
+        PhotonNetwork.Instantiate(rocketPrefab.name, pos3, Quaternion.identity);
+        PhotonNetwork.Instantiate(rocketPrefab.name, pos4, Quaternion.identity);
+    }
+
 
     void HandleMoveAnim()
     {
@@ -66,30 +92,36 @@ public class BossAI : EnemyAI
         agent.SetDestination(transform.position);
         isAction = true;
         timeBeforeAbility += 2;
-        Vector3 startRot = new Vector3(0, -45, 0);
+        Vector3 startRot = new Vector3(0, -60, 0);// probably decrease rotation
         transform.DORotate(startRot, 0.3f, RotateMode.WorldAxisAdd);
         yield return null;
         anim.SetBool("shoot", true);
         yield return new WaitForSeconds(0.3f);
         StartCoroutine(ShootCoroutine());
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1.4f);
+        StartCoroutine(RotateToPlayer(0.4f));
+        yield return new WaitForSeconds(0.4f);
         isAction = false;
     }
 
     IEnumerator ShootCoroutine()
     {
-        fireVFX.Play();
+        view.RPC("PlayFireEffect", RpcTarget.All);
         yield return new WaitForSeconds(0.1f);
         damageTrigger.enabled = true;
-        Vector3 rot = new Vector3(0, 90, 0);
-        transform.DORotate(rot, 1.5f, RotateMode.WorldAxisAdd)
+        Vector3 rot = new Vector3(0, 120, 0);
+        transform.DORotate(rot, 1.2f, RotateMode.WorldAxisAdd)
             .SetEase(Ease.InOutSine);
-        yield return new WaitForSeconds(1.5f);
-        fireVFX.Stop();
+        yield return new WaitForSeconds(1.2f);
+       
         damageTrigger.enabled = false;
-        rot = new Vector3(0, -45, 0);
-        transform.DORotate(rot, 0.3f, RotateMode.WorldAxisAdd)
-            .SetEase(Ease.InOutSine);
     }
+
+    [PunRPC]
+    void PlayFireEffect()
+    {
+        fireVFX.Play();
+    }
+
 
 }

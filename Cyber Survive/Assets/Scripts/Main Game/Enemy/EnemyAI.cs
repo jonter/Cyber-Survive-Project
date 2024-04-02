@@ -14,9 +14,11 @@ public class EnemyAI : MonoBehaviour
     protected bool isAction = false;
     protected Animator anim;
     protected float rotationSpeed = 10;
+    protected PhotonView view;
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        view = GetComponent<PhotonView>();
         anim = GetComponentInChildren<Animator>();
         agent = GetComponent<NavMeshAgent>();
         agent.stoppingDistance = attackDistance;
@@ -94,7 +96,7 @@ public class EnemyAI : MonoBehaviour
 
     IEnumerator MakeHit()
     {
-        StartCoroutine(RotateToPlayer());
+        StartCoroutine(RotateToPlayer(1));
         isAction = true;
         anim.SetTrigger("attack");
         yield return new WaitForSeconds(13f/30f);
@@ -110,10 +112,10 @@ public class EnemyAI : MonoBehaviour
         isAction = false;
     }
 
-    protected IEnumerator RotateToPlayer()
+    protected IEnumerator RotateToPlayer(float duration)
     {
         float timer = 0;
-        while(timer <= 1)
+        while(timer <= duration)
         {
             if (target == null) yield break;
             timer += Time.deltaTime;
