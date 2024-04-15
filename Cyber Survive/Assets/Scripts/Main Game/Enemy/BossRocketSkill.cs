@@ -31,7 +31,7 @@ public class BossRocketSkill : MonoBehaviour
         rocket.SetActive(false);
         if (PhotonNetwork.IsMasterClient == false) yield break;
         DamageAll();
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(1);
         PhotonNetwork.Destroy(gameObject);
     }
 

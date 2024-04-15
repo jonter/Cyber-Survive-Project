@@ -25,6 +25,8 @@ public class MenuLogic : MonoBehaviourPunCallbacks
 
     List<JoinRoomButton> roomButtons;
 
+    [SerializeField] ErrorPanel errorPanel;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,10 +60,16 @@ public class MenuLogic : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        openCreatePanelButton.interactable = true;
-        openJoinPanelButton.interactable = true;
+        
         print("Connect To Master Server");
         PhotonNetwork.JoinLobby();
+    }
+
+    public override void OnJoinedLobby()
+    {
+        print("Connect to Lobby. Now we can create/join Rooms");
+        openCreatePanelButton.interactable = true;
+        openJoinPanelButton.interactable = true;
     }
 
 
@@ -98,7 +106,8 @@ public class MenuLogic : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         print("Internet Troubles. Please restart the game");
-        print(cause);
+        errorPanel.gameObject.SetActive(true);
+        errorPanel.SetupPanel(cause.ToString());
     }
 
     string GetName()

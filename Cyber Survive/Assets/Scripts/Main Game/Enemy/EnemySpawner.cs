@@ -8,6 +8,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] GameObject robotPrefab;
     [SerializeField] GameObject dronePrefab;
     [SerializeField] GameObject kamikadzePrefab;
+    [SerializeField] GameObject lizardBossPrefab;
     EnemySpawnPoint[] spawnPoints;
 
     public int wave = 0;
@@ -30,7 +31,7 @@ public class EnemySpawner : MonoBehaviour
     {
         wave++;
         GameManager.master.DisplayWave(wave);
-        int enemyCount = wave * 3 + Random.Range(0, wave);
+        int enemyCount = 3 + wave + Random.Range(0, 2);
         if(enemyCount > 20) enemyCount = 20 + Random.Range(0, wave);
       
         yield return StartCoroutine(SpawnEnemiesInWave(enemyCount));
@@ -63,13 +64,26 @@ public class EnemySpawner : MonoBehaviour
             randVec.y = 0;
             randVec += spawnPos;
             GameObject clone = PhotonNetwork.Instantiate(ePrefab.name, randVec, Quaternion.identity);
-            clone.GetComponent<EnemyHealth>().IncreaseHP(1 + wave * 0.2f );
+            clone.GetComponent<EnemyHealth>().IncreaseHP(1 + wave * 0.1f );
             yield return new WaitForSeconds(0.2f);
         }
+        SpawnBoss(spawnPos);
+    }
+
+    void SpawnBoss(Vector3 spawnPos)
+    {
+        if(wave > 0 && wave % 5 == 0)
+        {
+            GameObject clone = PhotonNetwork.Instantiate
+                (lizardBossPrefab.name, spawnPos, Quaternion.identity);
+            clone.GetComponent<EnemyHealth>().IncreaseHP(1 + wave * 0.1f);
+        }
+
     }
 
     GameObject ChooseEnemyPrefab()
     {
+
         float rand = Random.Range(0f, wave);
         if (rand >= 10) rand = Random.Range(0f, 10f);
         

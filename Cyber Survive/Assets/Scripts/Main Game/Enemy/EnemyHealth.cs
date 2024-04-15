@@ -11,7 +11,7 @@ public class EnemyHealth : MonoBehaviour
     protected float maxHP;
     protected PhotonView view;
 
-    Animator anim;
+    protected Animator anim;
     protected bool isAlive = true;
 
     [SerializeField] protected Slider healthBar;

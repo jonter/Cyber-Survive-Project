@@ -101,6 +101,7 @@ public class EnemyAI : MonoBehaviour
         anim.SetTrigger("attack");
         yield return new WaitForSeconds(13f/30f);
         if (target == null) yield break;
+        if(enabled == false) yield break;
         float distance = Vector3.Distance(transform.position, target.position);
         if (distance <= attackDistance)
         {

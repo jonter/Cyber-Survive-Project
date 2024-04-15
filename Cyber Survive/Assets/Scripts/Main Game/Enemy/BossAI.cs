@@ -56,13 +56,39 @@ public class BossAI : EnemyAI
 
     IEnumerator MakeSkillCoroutine()
     {
+        agent.SetDestination(transform.position);
         isAction = true;
-        anim.SetTrigger("stomp");
+        view.RPC("MakeStompAnim", RpcTarget.All);
         yield return new WaitForSeconds(25f / 30f);
         SpawnBombsAroundBoss();
-        // спаунить бомбы вокруг игроков
+        StartCoroutine(SpawnBombsAtPlayers());
         yield return new WaitForSeconds(35f / 30f);
         isAction = false;
+    }
+
+    [PunRPC]
+    void MakeStompAnim()
+    {
+        anim.SetTrigger("stomp");
+    }
+
+    IEnumerator SpawnBombsAtPlayers()
+    {
+        PlayerHealth[] players = FindObjectsOfType<PlayerHealth>();
+        foreach (PlayerHealth p in players)
+        {
+            yield return new WaitForSeconds(0.1f);
+            Vector3 pos = p.transform.position + Random.insideUnitSphere * 3;
+            pos.y = 0;
+            PhotonNetwork.Instantiate(rocketPrefab.name, pos, Quaternion.identity);
+            if(Random.Range(0, 2) == 0)
+            {
+                pos = p.transform.position + Random.insideUnitSphere * 2;
+                pos.y = 0;
+                PhotonNetwork.Instantiate(rocketPrefab.name, pos, Quaternion.identity);
+            }
+        }
+
     }
 
     void SpawnBombsAroundBoss()
