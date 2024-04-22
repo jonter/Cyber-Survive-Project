@@ -12,6 +12,11 @@ public class TechesShoot : SoldierShoot
         fireRate = 0.5f;
         damage = 20;
         view = GetComponent<PhotonView>();
+        if (view.IsMine == false) return;
+        int level = PlayerPrefs.GetInt("teches");
+        damage = 20 + level * 2;
+        fireRate = 0.5f + level * 0.05f;
+       
     }
 
     protected override void Update()

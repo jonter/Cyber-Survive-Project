@@ -24,6 +24,9 @@ public class HealingWard : MonoBehaviour
     {
         view = GetComponent<PhotonView>();
         if (view.IsMine == false) return;
+        int level = PlayerPrefs.GetInt("medic");
+        healingPower = 5 + level * 2.5f;
+       
         players = FindObjectsOfType<PlayerHealth>();
         StartCoroutine(HealPlayers());
     }

@@ -37,7 +37,7 @@ public class SoldierShoot : MonoBehaviour
     {
         view = GetComponent<PhotonView>();
         if (view.IsMine == false) return;
-        int level = PlayerPrefs.GetInt("level");
+        int level = PlayerPrefs.GetInt("trooper");
         damage = 10 + level * 2;
     }
 

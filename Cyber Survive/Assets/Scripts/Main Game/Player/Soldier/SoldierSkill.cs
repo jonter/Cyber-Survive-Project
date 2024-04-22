@@ -25,7 +25,26 @@ public class SoldierSkill : MonoBehaviour
         view = GetComponent<PhotonView>();
         charMove = GetComponent<CharacterMovement>();
         playerShoot = GetComponent<SoldierShoot>();
-        if(view.IsMine) display.ChangeIcon(skillIcon);
+        if (view.IsMine)
+        {
+            display.ChangeIcon(skillIcon);
+            SetLevel();
+        }
+    }
+
+    void SetLevel()
+    {
+        int level = PlayerPrefs.GetInt("trooper");
+        duration = 5 + level * 0.5f;
+        if (duration > 12) duration = 12;
+        view.RPC("SetSkillVFX", RpcTarget.All, duration);
+    }
+
+    [PunRPC]
+    void SetSkillVFX(float dur)
+    {
+        ParticleSystem.MainModule main = skillVFX.main;
+        main.duration = dur;
     }
 
     // Update is called once per frame

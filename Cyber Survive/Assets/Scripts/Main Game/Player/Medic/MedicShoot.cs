@@ -12,6 +12,9 @@ public class MedicShoot : SoldierShoot
         fireRate = 1;
         damage = 1.5f;
         view = GetComponent<PhotonView>();
+        if (view.IsMine == false) return;
+        int level = PlayerPrefs.GetInt("medic");
+        damage = 1.5f + level * 0.2f;
 
     }
 

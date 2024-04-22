@@ -32,10 +32,18 @@ public class PlayerHealth : MonoBehaviour
     void SetupHealth()
     {
         if (view.IsMine == false) return;
-        int level = PlayerPrefs.GetInt("level");
-        maxHp = 100 + level * 50;
+        SoldierSkill charSkill = GetComponent<SoldierSkill>();
+        string ID = "trooper";
+        if (charSkill is MedicSkill) ID = "medic";
+        if (charSkill is TechesSkill) ID = "teches";
+
+        int level = PlayerPrefs.GetInt(ID);
+
+        maxHp = 100 + level * 20;
         hp = maxHp;
     }
+
+    
 
     void SwitchRagdoll(bool isOn)
     {

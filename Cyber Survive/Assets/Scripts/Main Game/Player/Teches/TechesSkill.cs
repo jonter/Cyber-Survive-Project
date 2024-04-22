@@ -13,6 +13,17 @@ public class TechesSkill : SoldierSkill
     bool isActivated = false;
     [SerializeField] LayerMask collideTurrelLayers;
 
+    protected override void Start()
+    {
+        base.Start();
+        if (view.IsMine == false) return;
+        int level = PlayerPrefs.GetInt("teches");
+        damage = 10 + level;
+        fireRate = 1.5f + level * 0.1f;
+        duration = 8 * level;
+        if(duration > 18) duration = 18; 
+    } 
+
     protected override void Update()
     {
         if (view.IsMine == false) return;
