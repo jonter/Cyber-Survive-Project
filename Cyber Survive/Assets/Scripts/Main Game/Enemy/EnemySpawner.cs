@@ -12,10 +12,12 @@ public class EnemySpawner : MonoBehaviour
     EnemySpawnPoint[] spawnPoints;
 
     public int wave = 0;
+    PhotonView view;
 
     // Start is called before the first frame update
     void Start()
     {
+        view = GetComponent<PhotonView>();
         if (PhotonNetwork.IsMasterClient == false) return;
         spawnPoints = FindObjectsOfType<EnemySpawnPoint>();
         
@@ -30,6 +32,7 @@ public class EnemySpawner : MonoBehaviour
     IEnumerator SpawnWave()
     {
         wave++;
+        view.RPC("SetWaveRPC", RpcTarget.Others, wave);
         GameManager.master.DisplayWave(wave);
         int enemyCount = 3 + wave + Random.Range(0, 2);
         if(enemyCount > 20) enemyCount = 20 + Random.Range(0, wave);
@@ -39,6 +42,12 @@ public class EnemySpawner : MonoBehaviour
         yield return new WaitForSeconds(5);
 
         StartCoroutine(SpawnWave());
+    }
+
+    [PunRPC]
+    void SetWaveRPC(int w)
+    {
+        wave = w;
     }
 
     IEnumerator WaitForEnemyDeath()

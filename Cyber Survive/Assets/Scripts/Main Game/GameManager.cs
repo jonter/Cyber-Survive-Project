@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,25 +14,41 @@ public class GameManager : MonoBehaviour
     [SerializeField] WaveTab waveTab;
     [SerializeField] GameOverPanel overPanel;
     [SerializeField] SkillDisplay skillDisplay;
+    [SerializeField] HostLeftPanel hostLeftPanel;
 
     [HideInInspector] public PhotonView view;
     [HideInInspector] public PlayerHealth charater;
     [HideInInspector] public int scores = 0;
 
     GameManager[] clients;
-
+    
     bool isGameOn = false;
 
     public static GameManager master;
+    public static GameManager my;
 
     public void LeaveRoom()
-    {
+    { 
         PhotonNetwork.LeaveRoom();
     }
 
     private void OnDestroy()
     {
+        // эта функция будто бы не работает при выходе мастер-клиента
         if (view.IsMine == true) SceneManager.LoadScene(0);
+        else if (view.Owner.IsMasterClient) GameManager.my.HostLeft();
+    }
+
+    void HostLeft()
+    {
+        hostLeftPanel.gameObject.SetActive(true);
+        int wave = FindObjectOfType<EnemySpawner>().wave;
+
+        int credits = (int)(scores + scores * wave * 0.1f);
+        int allCredits = PlayerPrefs.GetInt("credits");
+        PlayerPrefs.SetInt("credits", allCredits + credits);
+
+        hostLeftPanel.SetCreditText(credits);
     }
 
     private void Awake()
@@ -45,10 +62,11 @@ public class GameManager : MonoBehaviour
         overPanel.gameObject.SetActive(false);
         waitPanel.gameObject.SetActive(true);
         skillDisplay.gameObject.SetActive(false);
+        hostLeftPanel.gameObject.SetActive(false);
         
         if (view.IsMine == false) Destroy(canvas);
         if(PhotonNetwork.IsMasterClient) StartCoroutine(CheckPlayers());
-        SetupMasterClient();
+        SetupMainClients();
     }
 
     public void DisplayWave(int wave)
@@ -67,12 +85,13 @@ public class GameManager : MonoBehaviour
         waveTab.SetText("Волна: "+ wave);
     }
 
-    void SetupMasterClient()
+    void SetupMainClients()
     {
         clients = FindObjectsOfType<GameManager>();
         for (int i = 0; i < clients.Length; i++)
         {
             if (clients[i].view.Owner.IsMasterClient == true) master = clients[i];
+            if (clients[i].view.IsMine) my = clients[i];
         }
 
     }
@@ -160,9 +179,19 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < clients.Length; i++)
         {
-            if (clients[i].view.Owner.NickName == nick) clients[i].scores += score;
+            if (clients[i].view.Owner.NickName == nick)
+            {
+                clients[i].scores += score;
+                view.RPC("SetScoreRPC", clients[i].view.Owner, clients[i].scores);
+            }
         }
         ShowScores();
+    }
+
+    [PunRPC]
+    void SetScoreRPC(int score)
+    {
+        scores = score;
     }
 
     IEnumerator CheckCharsAlive()
