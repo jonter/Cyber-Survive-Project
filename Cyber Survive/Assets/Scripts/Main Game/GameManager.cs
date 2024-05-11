@@ -34,9 +34,8 @@ public class GameManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        // эта функция будто бы не работает при выходе мастер-клиента
         if (view.IsMine == true) SceneManager.LoadScene(0);
-        else if (view.Owner.IsMasterClient) GameManager.my.HostLeft();
+        else if (this == master) GameManager.my.HostLeft();
     }
 
     void HostLeft()
