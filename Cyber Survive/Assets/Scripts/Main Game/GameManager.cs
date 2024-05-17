@@ -66,6 +66,7 @@ public class GameManager : MonoBehaviour
         if (view.IsMine == false) Destroy(canvas);
         if(PhotonNetwork.IsMasterClient) StartCoroutine(CheckPlayers());
         SetupMainClients();
+        MusicManager.instance.SetBattleMusic();
     }
 
     public void DisplayWave(int wave)

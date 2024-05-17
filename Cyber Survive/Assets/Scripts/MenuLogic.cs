@@ -42,6 +42,7 @@ public class MenuLogic : MonoBehaviourPunCallbacks
         closeCreatePanelButton.onClick.AddListener(CloseCreatePanel);
         openJoinPanelButton.onClick.AddListener(OpenJoinPanel);
         closeJoinPanelButton.onClick.AddListener(CloseJoinPanel);
+        MusicManager.instance.SetMenuMusic();
     }
 
     void OpenCreatePanel() 
