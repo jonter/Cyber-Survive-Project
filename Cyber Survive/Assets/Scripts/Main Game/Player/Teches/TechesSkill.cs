@@ -13,9 +13,11 @@ public class TechesSkill : SoldierSkill
     bool isActivated = false;
     [SerializeField] LayerMask collideTurrelLayers;
 
+    AudioSource audio;
     protected override void Start()
     {
         base.Start();
+        audio = GetComponent<AudioSource>();
         if (view.IsMine == false) return;
         int level = PlayerPrefs.GetInt("teches");
         damage = 10 + level;
@@ -31,6 +33,7 @@ public class TechesSkill : SoldierSkill
 
         if (Input.GetKeyDown(KeyCode.G))
         {
+            audio.PlayOneShot(skillSFX, skillVolume);
             isActivated = !isActivated;
             if (isActivated) ActivateBuild();
             else DeactivateBuild();

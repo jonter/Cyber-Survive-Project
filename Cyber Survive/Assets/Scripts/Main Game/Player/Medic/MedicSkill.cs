@@ -11,6 +11,7 @@ public class MedicSkill : SoldierSkill
     {
         if(isReloaded == false) yield break;
         isReloaded = false;
+        view.RPC("PlaySoundRPC", RpcTarget.All);
         Vector3 wardPos = transform.position + new Vector3(0, -1, 0);
         GameObject ward = PhotonNetwork.Instantiate(healingWardPrefab.name,
             wardPos, Quaternion.identity);
@@ -21,4 +22,9 @@ public class MedicSkill : SoldierSkill
         isReloaded = true;
     }
 
+    [PunRPC]
+    void PlaySoundRPC()
+    {
+        GetComponent<AudioSource>().PlayOneShot(skillSFX, skillVolume);
+    }
 }

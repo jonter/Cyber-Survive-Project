@@ -34,9 +34,9 @@ public class UpgradeCharacter : MonoBehaviour
     {
         int level = PlayerPrefs.GetInt(charID);
         level++;
-        levelText.text = "Level " + level;
+        levelText.text = "Уровень " + level;
         price = level * 100;
-        priceText.text = $"Upgrade ({price})";
+        priceText.text = $"Прокачать ({price})";
     }
 
     void Upgrade()

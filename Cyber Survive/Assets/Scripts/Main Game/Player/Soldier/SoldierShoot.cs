@@ -18,6 +18,14 @@ public class SoldierShoot : MonoBehaviour
 
     protected float damage = 10;
 
+    protected AudioSource audio;
+    [SerializeField] protected AudioClip shootSFX;
+
+    [Range(0f, 1f)]
+    [SerializeField] protected float shootVolume = 1;
+
+   
+
     public IEnumerator IncreseFireCoroutine(float duration)
     {
         fireRate *= 1.7f;
@@ -32,10 +40,15 @@ public class SoldierShoot : MonoBehaviour
         isAction = false;
     }
 
+    private void Awake()
+    {
+        audio = GetComponent<AudioSource>();
+        view = GetComponent<PhotonView>();
+    }
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        view = GetComponent<PhotonView>();
         if (view.IsMine == false) return;
         int level = PlayerPrefs.GetInt("trooper");
         damage = 10 + level * 2;
@@ -72,6 +85,7 @@ public class SoldierShoot : MonoBehaviour
     protected void PlayFireEffect()
     {
         fireVFX.Play();
+        audio.PlayOneShot(shootSFX, shootVolume);
     }
 
 }

@@ -99,6 +99,7 @@ public class EnemyAI : MonoBehaviour
         StartCoroutine(RotateToPlayer(1));
         isAction = true;
         anim.SetTrigger("attack");
+        view.RPC("PlayAttackSound", RpcTarget.All);
         yield return new WaitForSeconds(13f/30f);
         if (target == null) yield break;
         if(enabled == false) yield break;
@@ -111,6 +112,12 @@ public class EnemyAI : MonoBehaviour
         yield return new WaitForSeconds(19f/ 30f);
 
         isAction = false;
+    }
+
+    [PunRPC]
+    protected void PlayAttackSound()
+    {
+        GetComponent<AudioSource>().Play();
     }
 
     protected IEnumerator RotateToPlayer(float duration)

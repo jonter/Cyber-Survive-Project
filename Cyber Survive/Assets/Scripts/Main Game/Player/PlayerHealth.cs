@@ -17,7 +17,13 @@ public class PlayerHealth : MonoBehaviour
     RigBuilder playerRig;
 
     [SerializeField] Rigidbody[] rigidbodies;
-    public bool isAlive = true;
+    [HideInInspector] public bool isAlive = true;
+
+    [Header("Audio Settings")]
+    [SerializeField] AudioClip deathSFX;
+
+    [Range(0f, 1f)]
+    [SerializeField] float deathVolume = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -101,6 +107,7 @@ public class PlayerHealth : MonoBehaviour
             SwitchRagdoll(true);
             isAlive = false;
             GetComponent<Collider>().enabled = false;
+            GetComponent<AudioSource>().PlayOneShot(deathSFX, deathVolume);
         }
     }
 

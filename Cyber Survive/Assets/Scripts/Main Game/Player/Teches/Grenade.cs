@@ -42,6 +42,7 @@ public class Grenade : MonoBehaviour
     {
         GameObject cloneVFX = Instantiate(burstVFX, transform.position, Quaternion.identity);
         cloneVFX.GetComponent<ParticleSystem>().Play();
+        
 
         transform.DOKill();
     }

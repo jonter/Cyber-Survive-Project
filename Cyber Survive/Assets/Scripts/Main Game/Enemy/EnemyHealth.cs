@@ -16,6 +16,8 @@ public class EnemyHealth : MonoBehaviour
 
     [SerializeField] protected Slider healthBar;
 
+    [SerializeField] protected AudioClip deathSFX;
+    [Range(0f, 1f)][SerializeField] protected float deathVolume = 1;
     public bool GetAlive()
     {
         return isAlive;
@@ -78,6 +80,8 @@ public class EnemyHealth : MonoBehaviour
         if (rand == 0) anim.SetTrigger("death1");
         else anim.SetTrigger("death2");
         GetComponent<Collider>().enabled = false;
+        GetComponent<AudioSource>().pitch = Random.Range(0.6f, 1.6f);
+        GetComponent<AudioSource>().PlayOneShot(deathSFX, deathVolume);
     }
     
 }

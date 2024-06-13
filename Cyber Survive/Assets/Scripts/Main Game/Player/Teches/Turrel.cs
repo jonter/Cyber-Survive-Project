@@ -19,6 +19,11 @@ public class Turrel : MonoBehaviour
 
     [SerializeField] Transform topPart;
 
+    AudioSource audio;
+    [Header("Audio Setting")]
+    [SerializeField] AudioClip appearSFX;
+    [SerializeField] AudioClip disappearSFX;
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
@@ -28,6 +33,8 @@ public class Turrel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        audio = GetComponent<AudioSource>();
+        audio.PlayOneShot(appearSFX);
         topPart.localPosition = new Vector3(0, 50, 0);
         topPart.DOLocalMoveY(0.5f, 0.5f).SetEase(Ease.InSine);
         view = GetComponent<PhotonView>();
@@ -60,6 +67,7 @@ public class Turrel : MonoBehaviour
     [PunRPC]
     void HideTurrel()
     {
+        audio.PlayOneShot(disappearSFX);
         topPart.DOLocalMoveY(60f, 0.5f).SetEase(Ease.InSine);
         enabled = false;
         transform.DOMoveY(-2, 0.5f).SetDelay(0.1f);
@@ -135,6 +143,7 @@ public class Turrel : MonoBehaviour
     [PunRPC]
     void DrawLine(Vector3 endPos)
     {
+        audio.Play();
         StartCoroutine(DrawLineCoroutine(endPos));
     }
     IEnumerator DrawLineCoroutine(Vector3 endPos)

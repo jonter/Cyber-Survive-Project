@@ -19,6 +19,12 @@ public class SoldierSkill : MonoBehaviour
     protected PhotonView view;
 
     [SerializeField] Sprite skillIcon;
+
+    [Header("Audio Settings")]
+    [SerializeField] protected AudioClip skillSFX;
+    [Range(0f, 1f)] [SerializeField] protected float skillVolume = 1;
+
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -74,6 +80,7 @@ public class SoldierSkill : MonoBehaviour
     void ActivateVFX()
     {
         skillVFX.Play();
+        GetComponent<AudioSource>().PlayOneShot(skillSFX, skillVolume);
     }
 
 }
