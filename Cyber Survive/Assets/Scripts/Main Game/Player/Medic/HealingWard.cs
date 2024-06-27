@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.UIElements;
 
 public class HealingWard : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class HealingWard : MonoBehaviour
         yield return new WaitForSeconds(healGap);
         for (int i = 0; i < players.Length; i++)
         {
+            if (players[i] == null) continue;
             float distance = Vector3.Distance(transform.position, players[i].transform.position);
             if(distance < healRadius)
             {

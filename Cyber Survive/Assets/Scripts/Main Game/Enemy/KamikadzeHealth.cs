@@ -55,6 +55,8 @@ public class KamikadzeHealth : EnemyHealth
     void PlayEffect()
     {
         GetComponentInChildren<ParticleSystem>().Play();
+        GetComponent<AudioSource>().pitch = Random.Range(0.8f, 1.2f);
+        GetComponent<AudioSource>().PlayOneShot(deathSFX, deathVolume);
     }
 
 

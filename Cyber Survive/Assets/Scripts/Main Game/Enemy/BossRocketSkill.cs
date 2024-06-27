@@ -28,6 +28,8 @@ public class BossRocketSkill : MonoBehaviour
         aimVFX.Stop();
         burstVFX.transform.parent = null;
         burstVFX.Play();
+        burstVFX.GetComponent<AudioSource>().pitch = Random.Range(1.2f, 1.8f);
+        burstVFX.GetComponent<AudioSource>().Play();
         rocket.SetActive(false);
         if (PhotonNetwork.IsMasterClient == false) yield break;
         DamageAll();

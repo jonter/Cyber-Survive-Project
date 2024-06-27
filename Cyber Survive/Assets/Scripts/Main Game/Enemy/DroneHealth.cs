@@ -26,6 +26,8 @@ public class DroneHealth : EnemyHealth
         Rigidbody rb = gameObject.AddComponent<Rigidbody>();
         rb.velocity = Random.insideUnitSphere * 5;
         StartCoroutine(DisableCoroutine());
+        GetComponent<AudioSource>().pitch = Random.Range(0.6f, 1.6f);
+        GetComponent<AudioSource>().PlayOneShot(deathSFX, deathVolume);
     }
 
     IEnumerator DisableCoroutine()

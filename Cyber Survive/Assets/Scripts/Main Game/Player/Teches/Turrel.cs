@@ -119,9 +119,10 @@ public class Turrel : MonoBehaviour
         if (view.IsMine == false) return;
         if (target == null) return;
         LookAtTarget();
+        if (isReloaded == true) StartCoroutine(ShootCoroutine());
+
         CheckEnemy();
 
-        if (isReloaded == true) StartCoroutine(ShootCoroutine());
 
     }
 

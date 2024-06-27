@@ -10,12 +10,17 @@ public class CharacterMovement : MonoBehaviour
     PhotonView view;
 
     [SerializeField] Animator anim;
+    [SerializeField] float animspeed = 0.9f;
 
     public IEnumerator IncreseSpeedCoroutine(float duration)
     {
-        maxSpeed *= 1.3f;
+        maxSpeed *= 1.4f;
+        animspeed *= 1.3f;
+        anim.SetFloat("animspeed", animspeed);
         yield return new WaitForSeconds(duration);
-        maxSpeed /= 1.3f;
+        maxSpeed /= 1.4f;
+        animspeed /= 1.3f;
+        anim.SetFloat("animspeed", animspeed);
     }
 
     // Start is called before the first frame update
@@ -23,6 +28,7 @@ public class CharacterMovement : MonoBehaviour
     {
         view = GetComponent<PhotonView>();
         rb = GetComponent<Rigidbody>();
+        anim.SetFloat("animspeed", animspeed);
     }
 
     private void OnDisable()

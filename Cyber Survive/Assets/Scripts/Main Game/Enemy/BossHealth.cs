@@ -12,6 +12,8 @@ public class BossHealth : EnemyHealth
         isAlive = false;
         anim.SetTrigger("death");
         GetComponent<Collider>().enabled = false;
+        GetComponent<AudioSource>().pitch = Random.Range(1.2f, 1.5f);
+        GetComponent<AudioSource>().PlayOneShot(deathSFX, deathVolume);
     }
 
 }

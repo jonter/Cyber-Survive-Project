@@ -43,12 +43,13 @@ public class SoldierSkill : MonoBehaviour
         int level = PlayerPrefs.GetInt("trooper");
         duration = 5 + level * 0.5f;
         if (duration > 12) duration = 12;
-        view.RPC("SetSkillVFX", RpcTarget.All, duration);
+        if(skillVFX != null) view.RPC("SetSkillVFX", RpcTarget.All, duration);
     }
 
     [PunRPC]
     void SetSkillVFX(float dur)
     {
+
         ParticleSystem.MainModule main = skillVFX.main;
         main.duration = dur;
     }

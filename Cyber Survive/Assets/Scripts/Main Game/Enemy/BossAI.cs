@@ -12,6 +12,10 @@ public class BossAI : EnemyAI
     [SerializeField] ParticleSystem fireVFX;
     [SerializeField] GameObject rocketPrefab;
 
+    AudioSource audio;
+
+    [SerializeField] AudioClip skillSFX;
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
@@ -21,6 +25,7 @@ public class BossAI : EnemyAI
 
     protected override void Start()
     {
+        audio = GetComponent<AudioSource>();
         if (PhotonNetwork.IsMasterClient == false) return;
         base.Start();
         GetComponentInChildren<BossDamageTrigger>().damage = damage;
@@ -70,6 +75,13 @@ public class BossAI : EnemyAI
     void MakeStompAnim()
     {
         anim.SetTrigger("stomp");
+        StartCoroutine(PlaySkillSound());
+    }
+
+    IEnumerator PlaySkillSound()
+    {
+        yield return new WaitForSeconds(20f / 30f);
+        audio.PlayOneShot(skillSFX);
     }
 
     IEnumerator SpawnBombsAtPlayers()
@@ -141,13 +153,24 @@ public class BossAI : EnemyAI
         yield return new WaitForSeconds(1.2f);
        
         damageTrigger.enabled = false;
+        view.RPC("StopFireEffect", RpcTarget.All);
     }
 
     [PunRPC]
     void PlayFireEffect()
     {
         fireVFX.Play();
+        audio.Play();
     }
+
+    [PunRPC]
+    void StopFireEffect()
+    {
+        fireVFX.Stop();
+        audio.Stop();
+    }
+
+
 
 
 }
