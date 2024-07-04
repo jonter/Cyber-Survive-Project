@@ -131,8 +131,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14f7cd541f0f49e4a8cd79379fb47ad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 15
-  score: 15
+  hp: 20
+  score: 20
   healthBar: {fileID: 5105632929821311053}
   deathSFX: {fileID: 8300000, guid: e136f6ede7bd09748a5d45e5f3295ae4, type: 3}
   deathVolume: 1

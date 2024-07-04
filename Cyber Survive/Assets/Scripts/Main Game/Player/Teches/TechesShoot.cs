@@ -9,7 +9,7 @@ public class TechesShoot : SoldierShoot
      
     protected override void Start()
     {
-        fireRate = 0.5f;
+        fireRate = 0.333f;
         damage = 20;
         view = GetComponent<PhotonView>();
         if (view.IsMine == false) return;

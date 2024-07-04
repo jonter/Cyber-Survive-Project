@@ -180,8 +180,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 810d2c57568b4a94f89816337c2e7934, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 50
-  score: 30
+  hp: 40
+  score: 15
   healthBar: {fileID: 7786488994347545727}
   deathSFX: {fileID: 8300000, guid: d14f620fae2d6c541ae32f6e99322477, type: 3}
   deathVolume: 0.9

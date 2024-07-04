@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 using UnityEngine.SocialPlatforms.Impl;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
     GameManager[] clients;
     
     bool isGameOn = false;
+    bool isGameOver = false;
 
     public static GameManager master;
     public static GameManager my;
@@ -40,6 +42,8 @@ public class GameManager : MonoBehaviour
 
     void HostLeft()
     {
+        if (isGameOver == true) return;
+        isGameOver = true;
         hostLeftPanel.gameObject.SetActive(true);
         int wave = FindObjectOfType<EnemySpawner>().wave;
 
@@ -66,7 +70,7 @@ public class GameManager : MonoBehaviour
         if (view.IsMine == false) Destroy(canvas);
         if(PhotonNetwork.IsMasterClient) StartCoroutine(CheckPlayers());
         SetupMainClients();
-        MusicManager.instance.SetBattleMusic();
+        if(view.IsMine == true) MusicManager.instance.SetBattleMusic();
     }
 
     public void DisplayWave(int wave)
@@ -182,7 +186,7 @@ public class GameManager : MonoBehaviour
             if (clients[i].view.Owner.NickName == nick)
             {
                 clients[i].scores += score;
-                view.RPC("SetScoreRPC", clients[i].view.Owner, clients[i].scores);
+                clients[i].view.RPC("SetScoreRPC", clients[i].view.Owner, clients[i].scores);
             }
         }
         ShowScores();
@@ -192,6 +196,7 @@ public class GameManager : MonoBehaviour
     void SetScoreRPC(int score)
     {
         scores = score;
+
     }
 
     IEnumerator CheckCharsAlive()
@@ -258,6 +263,9 @@ public class GameManager : MonoBehaviour
     [PunRPC]
     void GameOverAll(string leaderString, int wave, int score)
     {
+        if (isGameOver == true) return;
+        isGameOver = true;
+
         int credits = (int) (score + score * wave * 0.1f);
         int allCredits = PlayerPrefs.GetInt("credits");
         PlayerPrefs.SetInt("credits", allCredits + credits);

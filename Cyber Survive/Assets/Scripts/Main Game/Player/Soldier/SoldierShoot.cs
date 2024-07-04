@@ -16,7 +16,7 @@ public class SoldierShoot : MonoBehaviour
     protected float fireRate = 3;
     protected bool isAction = false;
 
-    protected float damage = 10;
+    protected float damage = 8;
 
     protected AudioSource audio;
     [SerializeField] protected AudioClip shootSFX;
